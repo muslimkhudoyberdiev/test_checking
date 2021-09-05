@@ -28,5 +28,5 @@ def main(image):
         if i==5:
             fifth_aswers=check_answers(fifth,frames[i],thresh[i],ANSWER_KEY_5) 
             data["fifth"]=fifth_aswers
-    return [data]
+    print([data])
 main(sys.argv[1])
