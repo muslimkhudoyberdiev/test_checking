@@ -32,15 +32,20 @@ def separate_contours(image,gray_image):
 	    max_height=max_height
     else:
 	    max_height=sum(sorted([cv2.boundingRect(c)[3] for c in cnts])[-2:])
+    
     for c in cnts:
         x,y,w,h = cv2.boundingRect(c)
         ar = w / float(h)
-        if 0.14*max_width<=w<=0.17*max_width and 0.23*max_height<=h<=0.26*max_height or 0.13*max_width<=w<=0.15*max_width and 0.43*max_height<=h<=0.45*max_height or 0.14*max_height<=h<=0.18*max_height and  0.14*max_width<=w<=0.18*max_width:
-            paper=image[y:y+h,x:x+w]
+        # if 0.14*max_width<=w<=0.18*max_width and 0.23*max_height<=h<=0.28*max_height or 0.13*max_width<=w<=0.18*max_width and 0.43*max_height<=h<=0.48*max_height or 0.14*max_height<=h<=0.18*max_height and  0.14*max_width<=w<=0.18*max_width:
+        if 0.14*max_width<=w<=0.18*max_width and 0.18*max_height<=h<=0.28*max_height or 0.14*max_width<=w<=0.18*max_width and 0.32*max_height<=h<=0.5*max_height:
+            # paper=image[y:y+h,x:x+w]
             warped=gray_image[y:y+h,x:x+w]
-            image_to_ocr=warped[Y:Y+int(0.035*max_height),X:X+int(0.14*max_width)]
-            test_id=warped[int(0.033*max_height):y+h,int(0.001*max_width):x+w]
-            warped=warped[int(0.04*max_height):y+h,int(0.025*max_width):x+w]
+            image_to_ocr=warped[Y:Y+int(0.16*h),X:X+int(0.14*max_width)]
+            test_id=warped[int(0.20*h):y+h,int(0.001*w):x+w]
+            if 0.32*max_height<=h<=0.5*max_height:
+                warped=warped[int(0.15*h):y+h,int(0.2*w):x+w]
+            else:
+                warped=warped[int(0.25*h):y+h,int(0.2*w):x+w]
             results=pytesseract.image_to_string(image_to_ocr).split()
             if "1" in results:
                 contours[1]=warped
@@ -161,6 +166,9 @@ def get_id(questions,paper,thresh,TEST_ID):
                 incorrect_answers+=1
             elif incorrect_answers>=2:
                 id="Wrong ID"
-    user_id="".join(id)
+    try:
+        user_id="".join(id)
+    except:
+        user_id="empty"
     return user_id
     
