@@ -77,38 +77,32 @@ def separate_answers(contours):
             if ind==0:
                 thresholded_image[0]=thresh
                 if 100>w >= 25 and 100>h >= 25 and ar >= 0.9 and ar <= 1.2:
-                    cv2.rectangle(warped,(x,y),(x+w,y+h),(0,0,255),2)
                     test_id.append(c)
                 
             if ind==1:
                 thresholded_image[1]=thresh
                 if 100>w >= 40 and 100>h >= 40 and ar >= 0.8 and ar <= 1.3:
-                    cv2.rectangle(warped,(x,y),(x+w,y+h),(0,0,255),2)
                     first_answers.append(c)
                     
                 
             elif ind==2:
                 thresholded_image[2]=thresh
                 if 100>w >= 40 and 100>h >= 40 and ar >= 0.8 and ar <= 1.3:
-                    cv2.rectangle(warped,(x,y),(x+w,y+h),(0,0,255),2)
                     second_answers.append(c)
                
             elif ind==3:
                 thresholded_image[3]=thresh
                 if 100>w >= 40 and 100>h >= 40 and ar >= 0.9 and ar <= 1.3:
-                    cv2.rectangle(warped,(x,y),(x+w,y+h),(0,0,255),2)
                     third_answers.append(c)
                
             elif ind==4:
                 thresholded_image[4]=thresh
                 if 100>w >= 40 and 100>h >= 40 and ar >= 0.9 and ar <= 1.3:
-                    cv2.rectangle(warped,(x,y),(x+w,y+h),(0,0,255),2)
                     fourth_answers.append(c)
                 
             elif ind==5:
                 thresholded_image[5]=thresh
                 if 100>w >= 40 and 100>h >= 40 and ar >= 0.8 and ar <= 1.3:
-                    cv2.rectangle(warped,(x,y),(x+w,y+h),(0,0,255),2)
                     fifth_answers.append(c)
         # cv2.imshow("warped",cv2.resize(warped,dsize=None,fx=0.4,fy=0.3))
         # cv2.waitKey(0)
