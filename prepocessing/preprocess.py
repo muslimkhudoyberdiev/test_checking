@@ -3,7 +3,6 @@ import numpy as np
 from imutils import contours
 import imutils,time
 import cv2
-# from check_result import ANSWER_KEY_1,ANSWER_KEY_2,ANSWER_KEY_3,ANSWER_KEY_4,ANSWER_KEY_5,TEST_ID
 
 
 def read_image(img):
@@ -36,22 +35,23 @@ def separate_contours(image,gray_image):
         ar = w / float(h)
         if 450>w>300 and 1050>h>950 or 450>w>300 and 2050>h>1700 or 700>w>500 and 800>h>700:
             warped=gray_image[y:y+h,x:x+w]
+            
             if int(0.04*max_width)<=x<=int(0.1*max_width):
                 warped_test=warped[int(0.05*h):y+h,int(0.15*w):X+w]
                 contours[1]=warped_test
             elif int(0.2*max_width)<=x<=int(0.3*max_width):
                 warped_test=warped[int(0.06*h):y+h,int(0.18*w):X+w]
                 contours[2]=warped_test
-            elif int(0.4*max_width)<=x<=int(0.5*max_width):
+            elif int(0.35*max_width)<=x<=int(0.5*max_width):
                 warped_test=warped[int(0.06*h):y+h,int(0.15*w):X+w]
                 contours[3]=warped_test
-            elif int(0.6*max_width)<=x<=int(0.7*max_width):
+            elif int(0.52*max_width)<=x<=int(0.7*max_width):
                 warped_test=warped[int(0.03*h):y+h,int(0.15*w):X+w]
                 contours[4]=warped_test
-            elif int(0.8*max_width)<=x<=int(0.9*max_width):
+            elif int(0.7*max_width)<x<=int(0.9*max_width):
                 warped_test=warped[int(0.03*h):y+h,int(0.15*w):X+w]
                 contours[5]=warped_test
-            elif int(0.15*max_width)<=x<=int(0.19*max_width):
+            elif int(0.12*max_width)<=x<=int(0.19*max_width):
                 test_id=warped[int(0.13*h):y+h,int(0.01*w):x+w]
                 contours[0]=test_id
     return contours
@@ -67,6 +67,7 @@ def separate_answers(contours):
     fifth_answers=[]
     test_id=[]
     for ind,warped in enumerate(contours):
+        
         thresh = cv2.adaptiveThreshold(warped, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV, 21, 11)
         cnts = cv2.findContours(thresh, cv2.RETR_EXTERNAL,
 	            cv2.CHAIN_APPROX_SIMPLE)
@@ -104,12 +105,10 @@ def separate_answers(contours):
                 thresholded_image[5]=thresh
                 if 100>w >= 40 and 100>h >= 40 and ar >= 0.8 and ar <= 1.3:
                     fifth_answers.append(c)
-        # cv2.imshow("warped",cv2.resize(warped,dsize=None,fx=0.4,fy=0.3))
-        # cv2.waitKey(0)
     return test_id,first_answers,second_answers,third_answers,fourth_answers,fifth_answers,thresholded_image
 
 
-def check_answers(questions,paper,thresh,ANSWER_KEY):
+def check_answers(questions,paper,thresh):
     """Getting all ids of all answers form sheet"""
     answers={}
     questionCnts = contours.sort_contours(questions,
@@ -135,7 +134,7 @@ def check_answers(questions,paper,thresh,ANSWER_KEY):
     
         
 
-def get_id(questions,paper,thresh,TEST_ID):
+def get_id(questions,paper,thresh):
     """Getting user's id from sheet"""
     id=[0,0,0,0,0,0,0,0]
     questionCnts = contours.sort_contours(questions,
